@@ -3,7 +3,7 @@ using FluentAssertions;
 
 namespace LeetCode.Test
 {
-    public class Tests
+    public class BeginnerQuestionTests
     {
         [SetUp]
         public void Setup()
@@ -22,7 +22,7 @@ namespace LeetCode.Test
             var expected = new ListNode(sum);
 
             // act
-            var result = Solution.AddTwoNumbers(l1, l2);
+            var result = BeginnerQuestion.AddTwoNumbers(l1, l2);
 
             // assert
             result.Should().BeEquivalentTo(expected);
@@ -36,7 +36,7 @@ namespace LeetCode.Test
             // arrange
 
             // act
-            var result = Solution.CombinationSum4(nums, target);
+            var result = BeginnerQuestion.CombinationSum4(nums, target);
 
             // assert
             result.Should().Equals(expected);
@@ -52,7 +52,7 @@ namespace LeetCode.Test
             var list = new ListNode(inputList);
 
             // act
-            var result = Solution.MiddleNode(list);
+            var result = BeginnerQuestion.MiddleNode(list);
 
             // assert
             var resultArray = result.ToArray();
@@ -71,7 +71,7 @@ namespace LeetCode.Test
             // arrange
 
             // act
-            var result = Solution.CanConstruct(ransomNote, magazine);
+            var result = BeginnerQuestion.CanConstruct(ransomNote, magazine);
 
             // assert
             result.Should().Be(expected);

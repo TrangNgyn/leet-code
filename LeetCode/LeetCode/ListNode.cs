@@ -6,13 +6,13 @@ namespace LeetCode
 {
     public class ListNode
     {
-        public int val { get; set; }
-        public ListNode next { get; set; }
+        public int Val { get; set; }
+        public ListNode Next { get; set; }
 
         public ListNode(int val = 0, ListNode next = null)
         {
-            this.val = val;
-            this.next = next;
+            this.Val = val;
+            this.Next = next;
         }
 
         public ListNode(params int[] numbers)
@@ -22,12 +22,12 @@ namespace LeetCode
 
             foreach(int n in numbers)
             {
-                dummyHead.next = new ListNode(n);
-                dummyHead = dummyHead.next;
+                dummyHead.Next = new ListNode(n);
+                dummyHead = dummyHead.Next;
             }
 
-            this.val = head.next?.val ?? 0;
-            this.next = head.next?.next;
+            this.Val = head.Next?.Val ?? 0;
+            this.Next = head.Next?.Next;
         }
 
         public int[] ToArray()
@@ -37,8 +37,8 @@ namespace LeetCode
 
             while(ptr != null)
             {
-                vals.Add(ptr.val);
-                ptr = ptr.next;
+                vals.Add(ptr.Val);
+                ptr = ptr.Next;
             }
 
             return vals.ToArray();

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LeetCode
 {
-    public static class Solution
+    public class BeginnerQuestion
     {
         /*
         *  Problem description: https://leetcode.com/problems/add-two-numbers/solution/
@@ -21,21 +21,21 @@ namespace LeetCode
 
             while (l1 != null || l2 != null || carry > 0)
             {
-                int val1 = l1 != null ? l1.val : 0;
-                int val2 = l2 != null ? l2.val : 0;
+                int val1 = l1 != null ? l1.Val : 0;
+                int val2 = l2 != null ? l2.Val : 0;
                 int sum = val1 + val2 + carry;
                 carry = sum/10;
 
-                current.next = new ListNode(sum%10);
+                current.Next = new ListNode(sum%10);
                 
                 // traversing the lists
-                current = current.next;
-                l1 = l1?.next ?? null;
-                l2 = l2?.next ?? null;
+                current = current.Next;
+                l1 = l1?.Next ?? null;
+                l2 = l2?.Next ?? null;
 
             }
 
-            return result.next;
+            return result.Next;
         }
 
 
@@ -69,7 +69,7 @@ namespace LeetCode
             while (current != null)
             {
                 nodes.Add(current);
-                current = current.next;
+                current = current.Next;
             }
 
             int midIndex = Convert.ToInt32(Math.Floor((decimal)(nodes.Count) / 2));
