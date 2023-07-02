@@ -39,7 +39,7 @@ namespace LeetCode.Test
             var result = BeginnerQuestion.CombinationSum4(nums, target);
 
             // assert
-            result.Should().Equals(expected);
+            result.Should().Be(expected);
         }
 
         [Test]
