@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using System;
 
 namespace LeetCode.Test
 {
@@ -123,6 +124,98 @@ namespace LeetCode.Test
         {
             // arrange
             var result = HashTableQuestion.IsHappy(num);
+
+            // assert
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 2, 7, 11, 15 }, 9, new int[] { 0, 1 })]
+        [TestCase(new int[] { 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1 }, 11, new int[] { 5, 11 })]
+        public void TwoSumTests(int[] nums, int target, int[] expected)
+        {
+            // arrange
+            var result = HashTableQuestion.TwoSum(nums, target);
+
+            // assert
+            result.Length.Should().Be(expected.Length);
+
+            if (expected.Length > 0)
+                result.Should().Contain(expected);
+        }
+
+        [Test]
+        [TestCase("egg", "add", true)]
+        [TestCase("foo", "bar", false)]
+        [TestCase("paper", "title", true)]
+        [TestCase("a", "b", true)]
+        [TestCase("abac", "abab", false)]
+        public void IsIsomorphicTests(string s, string t, bool expected)
+        {
+            // arrange
+            var result = HashTableQuestion.IsIsomorphic(s, t);
+
+            // assert
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new string[] { "Shogun", "Tapioca Express", "Burger King", "KFC" }, new string[] { "Piatti", "The Grill at Torrey Pines", "Hungry Hunter Steakhouse", "Shogun" }, new string[] { "Shogun" })]
+        [TestCase(new string[] { "Shogun", "Tapioca Express", "Burger King", "KFC" }, new string[] { "KFC", "Shogun", "Burger King" }, new string[] { "Shogun" })]
+        [TestCase(new string[] { "happy", "sad", "good" }, new string[] { "sad", "happy", "good" }, new string[] { "sad", "happy" })]
+        public void FindRestaurant(string[] list1, string[] list2, string[] expected)
+        {
+            // arrange
+            var result = HashTableQuestion.FindRestaurant(list1, list2);
+
+            // assert
+            result.Length.Should().Be(expected.Length);
+
+            if (expected.Length > 0)
+                result.Should().Contain(expected);
+        }
+
+        [Test]
+        [TestCase("leetcode", 0)]
+        [TestCase("loveleetcode", 2)]
+        [TestCase("aabb", -1)]
+        public void FirstUniqCharTests(string s, int expected)
+        {
+            // arrange
+            var result = HashTableQuestion.FirstUniqChar(s);
+
+            // assert
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 1 }, new int[] { 1 }, new int[] { 1 })]
+        [TestCase(new int[] { 1, 2, 1, 3 }, new int[] { 1, 5, 8 }, new int[] { 1 })]
+        [TestCase(new int[] { 3, 2, 1 }, new int[] { 9, 8 }, new int[] { })]
+        [TestCase(new int[] { 1, 2, 2, 2 }, new int[] { 1, 2, 2 }, new int[] { 1, 2, 2 })]
+        public void IntersectionIITests(int[] nums1, int[] nums2, int[] expected)
+        {
+            // arrange
+            var result = HashTableQuestion.IntersectII(nums1, nums2);
+
+            // assert
+            result.Length.Should().Be(expected.Length);
+
+            if (expected.Length > 0)
+                result.Should().Contain(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 1, 2, 3, 1 }, 3, true)]
+        [TestCase(new int[] { 1, 0, 1, 1 }, 1, true)]
+        [TestCase(new int[] { 2, 2 }, 1, true)]
+        [TestCase(new int[] { 1, 2, 3, 1, 2, 3 }, 2, false)]
+        [TestCase(new int[] { 2 }, 1, false)]
+        [TestCase(new int[] { 2, 2 }, 0, false)]
+        public void ContainsNearbyDuplicateTests(int[] nums, int k, bool expected)
+        {
+            // arrange
+            var result = HashTableQuestion.ContainsNearbyDuplicate(nums, k);
 
             // assert
             result.Should().Be(expected);

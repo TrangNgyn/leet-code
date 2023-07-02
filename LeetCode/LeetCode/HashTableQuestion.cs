@@ -9,6 +9,7 @@ namespace LeetCode
     {
 
         /*
+         * Single Number
          * Problem: https://leetcode.com/problems/single-number/
          * Solution using HashSet:
          * - Space complexity: O(n)
@@ -28,6 +29,7 @@ namespace LeetCode
         }
 
         /*
+         * Intersection of Two Aeeays I
          * Problem: https://leetcode.com/problems/intersection-of-two-arrays/
          * Solution complexity:
          *  - Time: O(n + m)
@@ -61,6 +63,7 @@ namespace LeetCode
         }
 
         /*
+         * Happy Number
          * Problem: https://leetcode.com/problems/happy-number/
          * Note: Un-happy numbers result in an endless loop 
          * so all we need to do is detect when the loop starts (where a repeated sum is found)
@@ -97,9 +100,218 @@ namespace LeetCode
         {
             return n.ToString().Select(x => int.Parse(x.ToString())).ToArray();
         }
+
+        /*
+         * Two Sum
+         * Problem: https://leetcode.com/problems/two-sum/description/
+         * Using hash map <target - num[i], i>:
+         *  - Space complexity: O(n)
+         *  - Time complexity: O(n)
+         *  - Worst case: the two numbers are at the start and end of nums
+         */
+        public static int[] TwoSum(int[] nums, int target)
+        {
+            var map = new Dictionary<int, int>();
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (map.ContainsKey(nums[i]))
+                {
+                    return new int[] { i, map[nums[i]] };
+                }
+                else
+                {
+                    var complement = target - nums[i];
+                    map[complement] = i;
+                }
+            }
+
+            return new int[0];
+        }
+
+        /*
+         * Isomorphic Strings
+         * Problem: https://leetcode.com/problems/isomorphic-strings/description/
+         * - Time complexity: O(n)
+         * - Space complexity: O(1) (there are 26 letters in the English alphabet so the max number of keys is 26)
+         */
+        public static bool IsIsomorphic(string s, string t)
+        {
+            var charMapST = new Dictionary<char, char>(); // character map s to t
+            var charMapTS = new Dictionary<char, char>(); // character map t to s
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (charMapST.ContainsKey(s[i]) && charMapST[s[i]] != t[i]) 
+                {
+                    return false;
+                }
+                else if(charMapTS.ContainsKey(t[i]) && charMapTS[t[i]] != s[i])
+                {
+                    return false;
+                }
+
+                charMapST[s[i]] = t[i];
+                charMapTS[t[i]] = s[i];
+            }
+
+            return true;
+        }
+
+        /*
+         * Minimum Index Sum of Two Lists
+         * Problem: https://leetcode.com/problems/minimum-index-sum-of-two-lists/description/
+         * - Time complexity: O(l1 + l2)
+         * - Space coomplexity: O(l * x)
+         *  where l is the smaller list length and x is the average string size
+         */
+        public static string[] FindRestaurant(string[] list1, string[] list2)
+        {
+            var stringIndexMap1 = new Dictionary<string, int>();
+            var sumCommonStringIndexMap = new Dictionary<string, int>();
+            var minIndex = list1.Length + list2.Length;
+
+            for (int i = 0; i < list1.Length; i++)
+            {
+                stringIndexMap1[list1[i]] = i;
+            }
+
+            for (int i = 0; i < list2.Length; i++)
+            {
+                if (stringIndexMap1.ContainsKey(list2[i]))
+                {
+                    var sumIndex = stringIndexMap1[list2[i]] + i;
+                    sumCommonStringIndexMap[list2[i]] = sumIndex;
+                    
+                    if(sumIndex < minIndex)
+                    {
+                        minIndex = sumIndex;
+                    }
+                }
+            }
+
+            return sumCommonStringIndexMap
+                .Where(x => x.Value == minIndex)
+                .Select(x => x.Key)
+                .ToArray();
+        }
+
+        /*
+         * First Unique Char in a String
+         * Problem: https://leetcode.com/problems/first-unique-character-in-a-string/description/
+         * - Time complexity: O(n)
+         * - Space complexity: O(1) (there are 26 letters in the English alphabet so the max number of keys is 26)
+         */
+        public static int FirstUniqChar(string s)
+        {
+            var charOccurenceIndexMap = new Dictionary<char,int[]>();
+            
+            for(int i = 0; i < s.Length; i++)
+            {
+                if (charOccurenceIndexMap.ContainsKey(s[i]))
+                {
+                    charOccurenceIndexMap[s[i]][0] += 1;
+                }
+                else 
+                { 
+                    charOccurenceIndexMap[s[i]] = new int[] {1, i}; 
+                }
+            }
+
+            var firstUniqueChar = charOccurenceIndexMap.Values
+                .FirstOrDefault(x => x[0] == 1) ?? new int[0];
+
+            return firstUniqueChar.Any() ? firstUniqueChar[1] : -1;
+        }
+
+        /*
+         * Intersection of Two Arrays II
+         * Problem: https://leetcode.com/problems/intersection-of-two-arrays-ii/description/
+         * 
+         * Optimisation strats:
+         *  - Build the hash map based on the smaller array to save space and time iterating through the map
+         *  - Because the hash map already has all the info needed from nums1, we can reuse nums1 as the result array to save even more space
+         *  - If x appears in both nums1 and nums2:
+         *   + If x appears in nums1 more times than nums2: hashMap[x] > occurence of x in nums2
+         *   + Else: hashMap[x] < occurence of x in nums2
+         */
+        public static int[] IntersectII(int[] nums1, int[] nums2)
+        {
+            if (nums1.Length > nums2.Length)
+            {
+                return IntersectII(nums2, nums1);
+            }
+
+            var numCount1 = new Dictionary<int, int>();
+
+            // count occurence of ints in nums1
+            for(int i = 0; i <  nums1.Length; i++)
+            {
+                numCount1[nums1[i]] = numCount1.TryGetValue(nums1[i], out var value) ? value + 1 : 1;
+            }
+
+            int intersectionLength = 0;
+            for(int i = 0; i < nums2.Length; i++)
+            {
+                var count = numCount1.TryGetValue(nums2[i], out var value) ? value : 0;
+
+                if(count > 0)
+                {
+                    nums1[intersectionLength] = nums2[i];
+                    intersectionLength++;
+                    numCount1[nums2[i]]--;
+                }
+            }
+
+            return nums1.Take(intersectionLength).ToArray();
+        }
+
+        /*
+         * Contains Duplicate II
+         * Problem: https://leetcode.com/problems/contains-duplicate-ii/description/
+         * 
+         * Initial observations:
+         *  - abs(i - j) is the distance between nums[i] and nums[j] in the array
+         *  - The question could be reworded as follows:
+         *   Given an array nums, find if there are two duplicate numbers 
+         *   that are within k distance of each other.
+         *   => The sliding window is of size min(m, k)
+         *  - If we iterate through the array starting from index 0,
+         *   then at any time abs(i - lastSeenIndex) = i - lastSeenIndex <= k
+         *   In other words: i <= k + lastSeenIndex
+         *   So we only need to map the number to the index of its last occurence
+         *   
+         *  Time complexity: O(n)
+         *  Space complexity: O(min(m, k))
+         */
+        public static bool ContainsNearbyDuplicate(int[] nums, int k)
+        {
+            if(k == 0 || nums.Length == 1)
+            {
+                return false;
+            }
+
+            var mostRecentIndexMap = new Dictionary<int,int>();
+
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if (mostRecentIndexMap.ContainsKey(nums[i]))
+                {
+                    if (i <= k + mostRecentIndexMap[nums[i]])
+                    {
+                        return true;
+                    }
+                }
+
+                // update most recent index
+                mostRecentIndexMap[nums[i]] = i;
+            }
+
+            return false;
+        }
     }
 
-    
+
 
     /*
      *  Design Hashset
@@ -175,8 +387,8 @@ namespace LeetCode
     }
 
     /*
+     * Design a Hash Map
      * Problem description: https://leetcode.com/problems/design-hashmap/
-     * 
      */
     public class MyHashMap
     {
