@@ -311,7 +311,45 @@ namespace LeetCode
         }
     }
 
+    /*
+    * Logger Rate Limiter
+    * Problem: https://leetcode.com/problems/logger-rate-limiter/description/
+    * 
+    * Your Logger object will be instantiated and called as such:
+    *  Logger obj = new Logger();
+    *  bool param_1 = obj.ShouldPrintMessage(timestamp,message);
+    *  
+    * Initial observations:
+    *  - The sliding window size is 10
+    *  - We only need to remember the timestamp of the last message
+    *  - Similar to "Contains Duplicate II" above but we don't care about the duplicates in between the window
+    */
+    public class Logger
+    {
+        private Dictionary<string, int> nextMessageTimeStamp;
+        private const int windowSize = 10;
 
+        public Logger()
+        {
+            nextMessageTimeStamp = new Dictionary<string, int>();
+        }
+
+        public bool ShouldPrintMessage(int timestamp, string message)
+        {
+            var nextTs = nextMessageTimeStamp.TryGetValue(message, out int time) ? time : 0;
+
+            if (nextTs > 0)
+            {
+                if(nextTs > timestamp)
+                {
+                    return false;
+                }
+            }
+
+            nextMessageTimeStamp[message] = timestamp + windowSize;
+            return true;
+        }
+    }
 
     /*
      *  Design Hashset

@@ -220,5 +220,18 @@ namespace LeetCode.Test
             // assert
             result.Should().Be(expected);
         }
+
+        [Theory]
+        public void LoggerRateLimiterTests()
+        {
+            // arrange
+            var logger = new Logger();
+            logger.ShouldPrintMessage(1, "foo").Should().Be(true);  // return true, next allowed timestamp for "foo" is 1 + 10 = 11
+            logger.ShouldPrintMessage(2, "bar").Should().Be(true);  // return true, next allowed timestamp for "bar" is 2 + 10 = 12
+            logger.ShouldPrintMessage(3, "foo").Should().Be(false);  // 3 < 11, return false
+            logger.ShouldPrintMessage(8, "bar").Should().Be(false);  // 8 < 12, return false
+            logger.ShouldPrintMessage(10, "foo").Should().Be(false); // 10 < 11, return false
+            logger.ShouldPrintMessage(11, "foo").Should().Be(true); // 11 >= 11, return true, next allowed timestamp for "foo" is 11 + 10 = 21
+        }
     }
 }
