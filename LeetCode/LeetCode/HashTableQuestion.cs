@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -308,6 +309,77 @@ namespace LeetCode
             }
 
             return false;
+        }
+
+        /*
+         * Group Anagrams
+         * Problem: https://leetcode.com/problems/group-anagrams/description/
+         * Two anagrams are equals when their characters are sorted alphabetically
+         */
+        public static IList<IList<string>> GroupAnagrams(string[] strs)
+        {
+            var anagramMap = new Dictionary<string, IList<string>>();
+
+            for(int i = 0;i < strs.Length;i++)
+            {
+                var sortedString = String.Concat(strs[i].OrderBy(c => c));
+
+                if (anagramMap.ContainsKey(sortedString))
+                {
+                    anagramMap[sortedString].Add(strs[i]);
+                }
+                else
+                {
+                    anagramMap[sortedString] = new List<string>() { strs[i] };
+                }
+            }
+
+            return anagramMap.Values.ToList();
+        }
+
+        /*
+         * Group Shifted String
+         * Problem: https://leetcode.com/problems/group-shifted-strings/description/
+         */
+        public static IList<IList<string>> GroupStrings(string[] strings)
+        {
+            var groupedStrings = new Dictionary<string, IList<string>>();
+
+            foreach (string s in strings)
+            {
+                var dist = ShiftStringToStartFromA(s);
+                if (groupedStrings.ContainsKey(dist))
+                {
+                    groupedStrings[dist].Add(s);
+                }
+                else
+                {
+                    groupedStrings[dist] = new List<string>() { s };
+                }
+            }
+
+            return groupedStrings.Values.ToList();
+        }
+        
+        public static string ShiftStringToStartFromA(string s)
+        {
+            int distFromA = (int)s[0] - 'a';
+            var result = "a";
+
+            if(s.Length > 1)
+            {
+                for(int i = 1; i < s.Length; i++)
+                {
+                    result += ShiftChar(s[i], distFromA);
+                }
+            }
+
+            return result;
+        }
+
+        public static char ShiftChar(char c, int shiftNumber)
+        {
+            return (char) ((c - shiftNumber + 26) % 26 + 1);
         }
     }
 

@@ -1,6 +1,9 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace LeetCode.Test
 {
@@ -232,6 +235,53 @@ namespace LeetCode.Test
             logger.ShouldPrintMessage(8, "bar").Should().Be(false);  // 8 < 12, return false
             logger.ShouldPrintMessage(10, "foo").Should().Be(false); // 10 < 11, return false
             logger.ShouldPrintMessage(11, "foo").Should().Be(true); // 11 >= 11, return true, next allowed timestamp for "foo" is 11 + 10 = 21
+        }
+
+        [Test]
+        [TestCase("eat tea tan ate nat bat", "bat, nat tan, ate eat tea")]
+        [TestCase("", "")]
+        [TestCase("a", "a")]
+        public void GroupAnagramsTests(string strs, string expected)
+        {
+            // arrange
+            var input = strs.Split(' ');
+            var result = HashTableQuestion.GroupAnagrams(input);
+
+            // assert
+            var expectedGroups = expected.Split(", ")
+                .Select(x => x.Split(" ").ToList())
+                .ToList();
+
+            result.Count.Should().Be(expectedGroups.Count);
+
+            foreach (var group in result)
+            {
+                var intersect = expectedGroups.First(x => !x.Except(group).Any());
+                intersect.Should().NotBeEmpty();
+            }
+        }
+
+        [Test]
+        [TestCase("abc bcd acef xyz az ba a z", "acef, a z, abc bcd xyz, az ba")]
+        [TestCase("a", "a")]
+        public void GroupStringsTests(string strs, string expected)
+        {
+            // arrange
+            var input = strs.Split(' ');
+            var result = HashTableQuestion.GroupStrings(input);
+
+            // assert
+            var expectedGroups = expected.Split(", ")
+                .Select(x => x.Split(" ").ToList())
+                .ToList();
+
+            result.Count.Should().Be(expectedGroups.Count);
+
+            foreach (var group in result)
+            {
+                var intersect = expectedGroups.First(x => !x.Except(group).Any());
+                intersect.Should().NotBeEmpty();
+            }
         }
     }
 }
