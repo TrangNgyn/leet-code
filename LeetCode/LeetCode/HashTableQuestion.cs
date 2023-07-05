@@ -381,6 +381,59 @@ namespace LeetCode
         {
             return (char) ((c - shiftNumber + 26) % 26 + 1);
         }
+
+        /*
+         * Jewels and Stones
+         * Problem: https://leetcode.com/problems/jewels-and-stones/description/
+         * 
+         * Time complexity: O(j + s)
+         * Space complexity: O(1) (52 case-sensitive chars at most)
+         */
+        public static int NumJewelsInStones(string jewels, string stones)
+        {
+            // build hash map from jewels
+            var jewelCount = new Dictionary<char, int>();
+
+            foreach (var j in jewels)
+            {
+                jewelCount[j] = 0;
+            }
+
+            foreach (var s in stones)
+            {
+                if(jewelCount.ContainsKey(s))
+                {
+                    jewelCount[s]++;
+                }
+            }
+
+            return jewelCount.Values.Sum();
+        }
+
+        /*
+         * Longest Substring Without Repeating Characters
+         * Problem: https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+         */
+        public static int LengthOfLongestSubstring(string s)
+        {
+            int start = 0, end = 0, max = 0, curr = 0;
+            var charSet = new HashSet<char>();
+
+            for(int i = 0; i < s.Length; i++)
+            {                
+                curr = end - start + 1;
+                end = i;
+                if (charSet.Contains(s[i]))
+                {                
+                    charSet.Clear();    
+                    start = end;
+                }
+                charSet.Add(s[i]);
+                max = Math.Max(max, curr);
+            }
+
+            return max;
+        }
     }
 
     /*

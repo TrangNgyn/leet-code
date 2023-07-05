@@ -283,5 +283,32 @@ namespace LeetCode.Test
                 intersect.Should().NotBeEmpty();
             }
         }
+
+        [Test]
+        [TestCase("aA", "aAAbbbb", 3)]
+        [TestCase("z", "ZZ", 0)]
+        public void NumJewelsInStonesTests(string jewels, string stones, int expected)
+        {
+            // arrange
+            var result = HashTableQuestion.NumJewelsInStones(jewels, stones);
+
+            // assert
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase("abcabcbb", 3)]
+        [TestCase("bbbbb", 1)]
+        [TestCase("pwwkew", 3)]
+        [TestCase(" ", 1)]
+        [TestCase("au", 2)]
+        public void LengthOfLongestSubstringTests(string s, int expected)
+        {
+            // arrange
+            var result = HashTableQuestion.LengthOfLongestSubstring(s);
+
+            // assert
+            result.Should().Be(expected);
+        }
     }
 }

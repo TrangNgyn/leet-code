@@ -50,8 +50,8 @@ namespace LeetCode
                 return false;
             }
 
-            var charCount = new Dictionary<char, int>();
-            var charMap = new Dictionary<char, char>();
+            var charSet = new HashSet<char>();
+            var charMap = new List<char>();
             var diffCharcount = 0;
 
             for (int i = 0; i < s.Length; i++)
@@ -59,38 +59,72 @@ namespace LeetCode
                 if (s[i] != goal[i])
                 {
                     diffCharcount++;
-                    charMap[s[i]] = goal[i];
-                }
+                    if (diffCharcount > 2)
+                    {
+                        return false;
+                    }
 
-                if (diffCharcount > 2)
-                {
-                    return false;
-                }
+                    charMap.Add(s[i]);
+                    charMap.Add(goal[i]);
+                }                
 
-                var count = charCount.TryGetValue(s[i], out var val) ? val : 0;
-                charCount[s[i]] = count + 1;
+                charSet.Add(s[i]);
             }
 
-            if (charMap.Keys.Count == 1)
+            if (diffCharcount == 1)
             {
                 return false;
             }
-            else if (charMap.Keys.Count == 2)
+            else if (diffCharcount == 2)
             {
-                var sChar1 = charMap.Keys.ToList()[0];
-                var sChar2 = charMap.Keys.ToList()[1];
-                if (sChar1 != charMap[sChar2] || sChar2 != charMap[sChar1])
+                if (charMap[0] != charMap[3] || charMap[1] != charMap[2])
                 {
                     return false;
                 }
             }
 
-            if (!charCount.Values.Any(x => x > 1) && s == goal)
+            var containsDuplicates = charSet.Count < s.Length;
+            if (!containsDuplicates && s == goal)
             {
                 return false;
             }
 
             return true;
+        }
+
+        /*
+         * Longest Subarray of 1's After Deleting One Element
+         * Problem: https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/description/
+         * Use sliding window
+         * Time complexity: O(n)
+         * Space complexity: O(1)
+         */
+        public static int LongestSubarray(int[] nums)
+        {
+            var zeroCount = 0; // number of 0s in the sliding window
+            var maxWindowSize = 0;
+            var left = 0;
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] == 0)
+                {
+                    zeroCount++;
+                }
+                while (zeroCount > 1)
+                {
+                    if (nums[left] == 0)
+                    {
+                        zeroCount--;
+                    }
+
+                    left++;
+                }
+
+                maxWindowSize = Math.Max(maxWindowSize, i - left);
+            }
+
+            return maxWindowSize;
         }
     }
 }
