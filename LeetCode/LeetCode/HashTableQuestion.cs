@@ -413,23 +413,41 @@ namespace LeetCode
         /*
          * Longest Substring Without Repeating Characters
          * Problem: https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+         * Use sliding window + hash set
+         * 
+         * Time complexity: O(n)
+         * Space complexity: O(1) - 26 chars in alphabet
          */
         public static int LengthOfLongestSubstring(string s)
         {
-            int start = 0, end = 0, max = 0, curr = 0;
+            int start = 0, max = 1, duplicateCount = 0;
             var charSet = new HashSet<char>();
 
+            if(s.Length == 0)
+            {
+                return 0;
+            }
+
             for(int i = 0; i < s.Length; i++)
-            {                
-                curr = end - start + 1;
-                end = i;
+            {
                 if (charSet.Contains(s[i]))
-                {                
-                    charSet.Clear();    
-                    start = end;
+                {
+                    duplicateCount++;
                 }
+
+                while(duplicateCount > 0)
+                {
+                    if (s[start] == s[i])
+                    {
+                        duplicateCount--;
+                    }
+
+                    charSet.Remove(s[start]);
+                    start++;  // reducing the window size to where the first occurence of the duplicate
+                }
+
                 charSet.Add(s[i]);
-                max = Math.Max(max, curr);
+                max = Math.Max(max, i - start + 1);
             }
 
             return max;

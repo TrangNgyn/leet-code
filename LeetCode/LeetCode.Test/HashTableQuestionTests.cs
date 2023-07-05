@@ -302,6 +302,7 @@ namespace LeetCode.Test
         [TestCase("pwwkew", 3)]
         [TestCase(" ", 1)]
         [TestCase("au", 2)]
+        [TestCase("dvdf", 3)]
         public void LengthOfLongestSubstringTests(string s, int expected)
         {
             // arrange
