@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -310,6 +311,27 @@ namespace LeetCode.Test
 
             // assert
             result.Should().Be(expected);
+        }
+
+        [Theory]
+        public void TwoSumIIITests()
+        {
+            TwoSum obj1 = new TwoSum();
+            obj1.Add(1);
+            obj1.Add(3);
+            obj1.Add(5);
+            obj1.Find(4).Should().Be(true);
+            obj1.Find(7).Should().Be(false);
+
+            TwoSum obj2 = new TwoSum();
+            obj2.Add(0);
+            obj2.Find(0).Should().Be(false);
+
+            TwoSum obj3 = new TwoSum();
+            obj3.Add(0);
+            obj3.Add(-1);
+            obj3.Add(1);
+            obj3.Find(0).Should().Be(true);
         }
     }
 }

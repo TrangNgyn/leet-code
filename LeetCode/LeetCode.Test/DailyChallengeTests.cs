@@ -32,5 +32,17 @@ namespace LeetCode.Test
             var result = DailyChallenge.LongestSubarray(nums);
             result.Should().Be(expected);
         }
+
+        [Test]
+        [TestCase(new int[] { 2, 3, 1, 2, 4, 3 }, 7, 2)]
+        [TestCase(new int[] { 1, 4, 4 }, 4, 1)]
+        [TestCase(new int[] { 1, 1, 1, 1, 1, 1, 1, 1 }, 11, 0)]
+        [TestCase(new int[] { 1, 1, 3, 3, 3, 1 }, 2, 1)]
+        [TestCase(new int[] { 1, 1, 1 }, 3, 3)]
+        public void MinSubArrayLenTests(int[] nums, int target, int expected)
+        {
+            var result = DailyChallenge.MinSubArrayLen(target, nums);
+            result.Should().Be(expected);
+        }
     }
 }

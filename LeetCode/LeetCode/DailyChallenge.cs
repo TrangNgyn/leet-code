@@ -126,5 +126,33 @@ namespace LeetCode
 
             return maxWindowSize;
         }
+
+        /*
+         * Minimum Size Subarray Sum
+         * Problem: https://leetcode.com/problems/minimum-size-subarray-sum/
+         * 
+         * Use sliding window
+         * Time complexity: O(n)
+         * Space complexity: O(1)
+         */
+        public static int MinSubArrayLen(int target, int[] nums)
+        {
+            int minLen = int.MaxValue, start = 0, end = 0, sum = 0;
+
+            while(end < nums.Length)
+            {
+                sum += nums[end];
+
+                while(sum >= target)
+                {
+                    minLen = Math.Min(minLen, end - start + 1);
+                    sum -= nums[start];
+                    start++;
+                }
+                end++;
+            }
+
+            return minLen == int.MaxValue ? 0 : minLen;
+        }
     }
 }

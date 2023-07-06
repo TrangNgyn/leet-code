@@ -455,6 +455,48 @@ namespace LeetCode
     }
 
     /*
+     * Two Sum III - Data structure design
+     * Problem: https://leetcode.com/problems/two-sum-iii-data-structure-design/description/
+     * 
+     * Your TwoSum object will be instantiated and called as such:
+     * TwoSum obj = new TwoSum();
+     * obj.Add(number);
+     * bool param_2 = obj.Find(value);
+     */
+    public class TwoSum
+    {
+        private Dictionary<int,int> intCount;
+        public TwoSum()
+        {
+            intCount = new Dictionary<int,int>();
+        }
+
+        public void Add(int number)
+        {
+            var count = intCount.TryGetValue(number, out int val) ? val : 0;
+            intCount[number] = count + 1;
+        }
+
+        public bool Find(int value)
+        {
+            foreach(int i in intCount.Keys)
+            {
+                var comp = value - i;
+
+                if (intCount.ContainsKey(comp))
+                {
+                    if ((comp*2 == value && intCount[comp] > 1) || comp * 2 != value)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+    }
+
+    /*
     * Logger Rate Limiter
     * Problem: https://leetcode.com/problems/logger-rate-limiter/description/
     * 
