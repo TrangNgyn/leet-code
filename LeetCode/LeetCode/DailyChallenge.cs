@@ -226,11 +226,11 @@ namespace LeetCode
          */
         public static long PutMarbles(int[] weights, int k)
         {
-            var pairWeight = new List<int>();
+            var pairWeight = new List<long>();
 
             for(int i = 0; i < weights.Length - 1; i++)
             {
-                pairWeight.Add(weights[i] + weights[i+1]);
+                pairWeight.Add((long) weights[i] + weights[i+1]);
             }
 
             var maxScore = pairWeight.OrderByDescending(x => x).Take(k - 1).Sum();
