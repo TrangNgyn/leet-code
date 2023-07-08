@@ -233,8 +233,9 @@ namespace LeetCode
                 pairWeight.Add((long) weights[i] + weights[i+1]);
             }
 
-            var maxScore = pairWeight.OrderByDescending(x => x).Take(k - 1).Sum();
-            var minScore = pairWeight.OrderBy(x => x).Take(k - 1).Sum();
+            var sorted = pairWeight.OrderByDescending(x => x);
+            var maxScore = sorted.Take(k - 1).Sum();
+            var minScore = sorted.TakeLast(k - 1).Sum();
 
             return maxScore - minScore;
         }
