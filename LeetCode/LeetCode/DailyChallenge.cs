@@ -209,5 +209,34 @@ namespace LeetCode
 
             return maxLen;
         }
+
+        /*
+         * Put marbles in bags
+         * Problem: https://leetcode.com/problems/put-marbles-in-bags/
+         * 
+         * Observations:
+         *  - For k bags, there are always k-1 splitting points
+         *  - The score of a marble distribution = 
+         *      (weight[0] + weight[last]) + sum(weights between 2 consecutive ends of the sub-arrays)
+         *  - Max(score) occurs when max(sum(k-1 weights between 2 consecutive ends of the sub-arrays))
+         *  - Min(score) occurs when min(sum(k-1 weights between 2 consecutive ends of the sub-arrays))
+         *  
+         *  Time complexity: O(n + sorting algo complexity)
+         *  Space complexity: O(n - 1) = O(n)
+         */
+        public static long PutMarbles(int[] weights, int k)
+        {
+            var pairWeight = new List<int>();
+
+            for(int i = 0; i < weights.Length - 1; i++)
+            {
+                pairWeight.Add(weights[i] + weights[i+1]);
+            }
+
+            var maxScore = pairWeight.OrderByDescending(x => x).Take(k - 1).Sum();
+            var minScore = pairWeight.OrderBy(x => x).Take(k - 1).Sum();
+
+            return maxScore - minScore;
+        }
     }
 }

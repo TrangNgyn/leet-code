@@ -58,5 +58,17 @@ namespace LeetCode.Test
             var result = DailyChallenge.MaxConsecutiveAnswers(answerKey, k);
             result.Should().Be(expected);
         }
+
+        [Test]
+        [TestCase(new int[] { 1, 3, 5, 1 }, 2, 4)]
+        [TestCase(new int[] { 5, 1, 0, 2 }, 3, 5)]
+        [TestCase(new int[] { 1, 3 }, 2, 0)]        // only 1 distribution
+        [TestCase(new int[] { 1, 3, 4 }, 1, 0)]     // k = 1 => only 1 distribution
+        [TestCase(new int[] { 1, 3, 4 }, 3, 0)]     // k = weights.Length => only 1 distribution
+        public void PutMarblesTests(int[] weights, int k, int expected)
+        {
+            var result = DailyChallenge.PutMarbles(weights, k);
+            result.Should().Be(expected);
+        }
     }
 }
