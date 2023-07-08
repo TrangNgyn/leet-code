@@ -44,5 +44,19 @@ namespace LeetCode.Test
             var result = DailyChallenge.MinSubArrayLen(target, nums);
             result.Should().Be(expected);
         }
+
+        [Test]
+        [TestCase("TTFF", 2, 4)]
+        [TestCase("TFFT", 1, 3)]
+        [TestCase("TTFTTFTT", 1, 5)]
+        [TestCase("FTFTTT", 2, 6)]
+        [TestCase("F", 1, 1)]
+        [TestCase("FFFF", 1, 4)]
+        [TestCase("FTFT", 1, 3)]
+        public void MaxConsecutiveAnswersTests(string answerKey, int k, int expected)
+        {
+            var result = DailyChallenge.MaxConsecutiveAnswers(answerKey, k);
+            result.Should().Be(expected);
+        }
     }
 }

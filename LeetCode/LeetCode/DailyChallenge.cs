@@ -154,5 +154,60 @@ namespace LeetCode
 
             return minLen == int.MaxValue ? 0 : minLen;
         }
+
+        /*
+         * Maximize the Confusion of an Exam
+         * Problem: https://leetcode.com/problems/maximize-the-confusion-of-an-exam/description/
+         * 
+         * Use sliding window:
+         *  - Time complexity: O(2n) = O(n)
+         *  - Space complexity: O(1)
+         */
+        public static int MaxConsecutiveAnswers(string answerKey, int k)
+        {
+            int maxLen = 0, left = 0, replacedAns = 0;
+
+            for (int i = 0; i < answerKey.Length; i++)
+            {
+                if (answerKey[i] != 'T')
+                {
+                    replacedAns++;
+                }
+
+                while(replacedAns > k)
+                {
+                    if (answerKey[left] != 'T')
+                    {
+                        replacedAns--;
+                    }                    
+                    left++;
+                }
+
+                maxLen = Math.Max(maxLen, i - left + 1);
+            }
+
+            left = 0;
+            replacedAns = 0;
+            for (int i = 0; i < answerKey.Length; i++)
+            {
+                if (answerKey[i] != 'F')
+                {
+                    replacedAns++;
+                }
+
+                while (replacedAns > k)
+                {
+                    if (answerKey[left] != 'F')
+                    {
+                        replacedAns--;
+                    }
+                    left++;
+                }
+
+                maxLen = Math.Max(maxLen, i - left + 1);
+            }
+
+            return maxLen;
+        }
     }
 }
