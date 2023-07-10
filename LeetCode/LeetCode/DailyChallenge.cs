@@ -239,5 +239,38 @@ namespace LeetCode
 
             return maxScore - minScore;
         }
+
+        /*
+         * Minimum depth of Binary tree
+         * Proiblem: https://leetcode.com/problems/minimum-depth-of-binary-tree/description/
+         * 
+         * Use Depth first search
+         * Time complexity: O(n)
+         * Space complexity: O(n)
+         */
+        public static int MinDepth(TreeNode root)
+        {
+            return DFS(root);
+        }
+
+        private static int DFS(TreeNode root)
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+
+            // one of the child is not null
+            if (root.Left == null)
+            {
+                return 1 + DFS(root.Right);
+            }
+            else if (root.Right == null)
+            {
+                return 1 + DFS(root.Left);
+            }
+
+            return 1 + Math.Min(DFS(root.Right), DFS(root.Left));
+        }
     }
 }

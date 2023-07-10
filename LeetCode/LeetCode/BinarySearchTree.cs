@@ -6,10 +6,15 @@ namespace LeetCode
 {
     public class TreeNode
     {
-        public int Key;
-        public int? Value;
-        public TreeNode Left, Right;
+        public int Key { get; set; }
+        public int? Value { get; set; }
+        public TreeNode Left { get; set; }
+        public TreeNode Right { get; set; }
 
+        public TreeNode() 
+        { 
+        
+        }
         public TreeNode(int key, int? value = null)
         {
             Key = key;

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO.MemoryMappedFiles;
 using System.Text;
 
 namespace LeetCode.Test
@@ -69,6 +70,65 @@ namespace LeetCode.Test
         {
             var result = DailyChallenge.PutMarbles(weights, k);
             result.Should().Be(expected);
+        }
+
+        [Theory]
+        public void MinTreeDepthTests()
+        {
+            // Tree 1
+            var tree1 = new TreeNode()
+            {
+                Key = 3,
+                Left = new TreeNode(9),
+                Right = new TreeNode()
+                {
+                    Key = 20,
+                    Left = new TreeNode(15),
+                    Right = new TreeNode(7)
+                }
+            };
+
+            DailyChallenge.MinDepth(tree1).Should().Be(2);
+
+            // Tree 2
+            var tree2 = new TreeNode()
+            {
+                Key = 2,
+                Left = null,
+                Right = new TreeNode()
+                {
+                    Key = 3,
+                    Left = null,
+                    Right = new TreeNode()
+                    {
+                        Key = 4,
+                        Left = null,
+                        Right = new TreeNode()
+                        {
+                            Key = 5,
+                            Left = null,
+                            Right = new TreeNode(6)
+                        }
+                    }
+                }
+            };
+
+            DailyChallenge.MinDepth(tree2).Should().Be(5);
+
+            // Tree 3
+            var tree3 = new TreeNode()
+            {
+                Key = 1,
+                Left = new TreeNode()
+                {
+                    Key = 2,
+                    Left = new TreeNode(4),
+                    Right = new TreeNode(5)
+                },
+                Right = new TreeNode(3)
+            };
+
+            DailyChallenge.MinDepth(tree3).Should().Be(2);
         }
     }
 }

@@ -68,5 +68,47 @@ namespace LeetCode.Test
             result.Should().Be(expected);
         }
 
+
+        [Test]
+        [TestCase(4, 1, 6)]
+        [TestCase(3, 2, 7)]
+        public void TheMaximumAchievableXTest(int num, int t, int expected)
+        {
+            var result = WeeklyChallenge.TheMaximumAchievableX(num, t);
+
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 1, 3, 6, 4, 1, 2 }, 2, 3)]
+        [TestCase(new int[] { 1, 3, 6, 4, 1, 2 }, 3, 5)]
+        [TestCase(new int[] { 1, 3, 6, 4, 1, 2 }, 0, -1)]
+        [TestCase(new int[] { 1, 3, 6, 4, 2, 2 }, 0, -1)]
+        [TestCase(new int[] { 1, 3 }, 1, -1)]
+        [TestCase(new int[] { 1, 3 }, 2, 1)]
+        [TestCase(new int[] { 1, 0, 2 }, 1, 1)]
+        public void MaximumJumpsTests(int[] nums, int target, int expected)
+        {
+            var result = WeeklyChallenge.MaximumJumps(nums, target);
+
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 2, 3, 1 }, new int[] { 1, 2, 1 }, 2)]
+        [TestCase(new int[] { 1, 3, 2, 1 }, new int[] { 2, 2, 3, 4 }, 4)]
+        [TestCase(new int[] { 1, 1 }, new int[] { 2, 2 }, 2)]
+        [TestCase(new int[] { 1 }, new int[] { 2 }, 1)]
+        [TestCase(new int[] { 10, 1 }, new int[] { 20, 2 }, 1)]
+        [TestCase(new int[] { 8, 7 ,4 }, new int[] { 13, 4, 4 }, 2)]
+        public void MaxNonDecreasingLengthTests(int[] nums1, int[] nums2, int expected)
+        {
+            var result = WeeklyChallenge.MaxNonDecreasingLength(nums1, nums2);
+
+            result.Should().Be(expected);
+        }
+
+        
+
     }
 }

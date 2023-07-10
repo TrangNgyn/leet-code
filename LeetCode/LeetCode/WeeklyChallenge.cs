@@ -202,5 +202,126 @@ namespace LeetCode
 
             return (long) contSubLength.Sum(n => (n*n + n)/2) + nums.Length;
         }
+
+
+        public static int TheMaximumAchievableX(int num, int t)
+        {
+            return 0;
+        }
+
+        public static int MaximumJumps(int[] nums, int target)
+        {
+            var jumpCount = 0;
+            int i = 0;
+            while(i < nums.Length - 1)
+            {
+                int j = i + 1;
+                while(j < nums.Length)
+                {
+                    if (Math.Abs(nums[j] - nums[i]) <= target)
+                    {
+                        jumpCount++;
+                        i = j;
+
+                        break;
+                    }
+                    else
+                    {
+                        j++;
+                    }
+                }
+
+                if(j == nums.Length)
+                {
+                    jumpCount = -1;
+                    break;
+                }
+            }
+
+            return jumpCount;
+        }
+
+        public static int MaxNonDecreasingLength(int[] nums1, int[] nums2)
+        {
+            //var nums3 = new List<int>();
+            //for(int i = 0; i < nums1.Length; i++)
+            //{
+            //    var smaller = Math.Min(nums1[i], nums2[i]);
+
+            //    if(nums3.Count == 0 || nums3[i - 1] <= smaller)
+            //    {
+            //        nums3.Add(smaller);
+            //    }
+            //    else if(nums3[i - 1] > smaller && nums3[i - 1] <= nums1[i])
+            //    {
+            //        nums3.Add(nums1[i]);
+            //    }
+            //    else if (nums3[i - 1] > smaller && nums3[i - 1] <= nums2[i])
+            //    {
+            //        nums3.Add(nums2[i]);
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //}
+
+            //return nums3.Count;
+
+            var nums3 = new List<int>(); // number of 0s in the sliding window
+            var maxWindowSize = 0;
+            var left = 0;
+
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                var num = CanAddToNums3(nums1[i], nums2[i], nums3, i);
+                if(num != -1)
+                {
+                    nums3.Add(num);
+                }
+
+                while (CanAddToNums3(nums1[i], nums2[i], nums3, i) != -1 && left < nums3.Count)
+                {
+                    if(left < nums3.Count - 1)
+                    {
+                        if (nums3[left] > nums3[left + 1])
+                        {
+                            nums3[left] = -1;
+                        }
+                    }
+
+                    left++;
+                }
+
+                maxWindowSize = Math.Max(maxWindowSize, i - left);
+            }
+
+            return maxWindowSize;
+        }
+
+        public static int CanAddToNums3(int num1, int num2, IList<int> nums3, int i)
+        {
+            var smaller = Math.Min(num1, num2);
+            
+            if (nums3.Count == 0 || i <= 0)
+            {
+                return smaller;
+            }
+            else if(nums3[i - 1] <= smaller)
+            {
+                return smaller;
+            }
+            else if (nums3[i - 1] > smaller && nums3[i - 1] <= num1)
+            {
+                return num1;
+            }
+            else if (nums3[i - 1] > smaller && nums3[i - 1] <= num2)
+            {
+                return num2;
+            }
+
+            return -1;
+        }
     }
+
 }
