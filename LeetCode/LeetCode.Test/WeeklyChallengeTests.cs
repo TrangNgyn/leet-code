@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LeetCode.Test
@@ -108,7 +110,47 @@ namespace LeetCode.Test
             result.Should().Be(expected);
         }
 
-        
+        [Test]
+        [TestCase(new int[] { 1, 2, 3, 4 }, 21)]
+        [TestCase(new int[] { 2, 7, 1, 19, 18, 3 }, 63)]
+        public void SumOfSquaresTests(int[] nums, int expected)
+        {
+            var result = WeeklyChallenge.SumOfSquares(nums);
 
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 4, 6, 1, 2 }, 2, 3)]
+        [TestCase(new int[] { 1, 1, 1, 1 }, 10, 4)]
+        public void MaximumBeautyTests(int[] nums, int k, int expected)
+        {
+            var result = WeeklyChallenge.MaximumBeauty(nums, k);
+
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 1, 2, 2, 2 }, 2)]
+        [TestCase(new int[] { 2, 1, 3, 1, 1, 1, 7, 1, 2, 1 }, 4)]
+        [TestCase(new int[] { 3, 3, 3, 3, 7, 2, 2 }, -1)]
+        [TestCase(new int[] { 1, 1 }, 0)]
+        [TestCase(new int[] { 1 }, -1)]
+        [TestCase(new int[] { 1, 2, 3 }, -1)]
+        public void MinimumIndexTests(int[] nums, int expected)
+        {
+            List<int> numsList = nums.ToList();
+            var result = WeeklyChallenge.MinimumIndex(numsList);
+
+            result.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase("cbaaaabc", new string[] { "aaa", "cb" }, 4)]
+        public void LongestValidSubstringTests(string word, IList<string> forbidden, int expected)
+        {
+            var result = WeeklyChallenge.LongestValidSubstring(word, forbidden);
+            result.Should().Be(expected);
+        }
     }
 }

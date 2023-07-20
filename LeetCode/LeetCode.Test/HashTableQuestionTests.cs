@@ -333,5 +333,114 @@ namespace LeetCode.Test
             obj3.Add(1);
             obj3.Find(0).Should().Be(true);
         }
+
+        [Theory]
+        public void IsValidSudokuTests()
+        {
+            // valid board
+            var board1 = new char[9][] {
+                new char[9] { '5', '3', '.', '.', '7', '.', '.', '.', '.' },
+                new char[9] { '6', '.', '.', '1', '9', '5', '.', '.', '.' },
+                new char[9] { '.', '9', '8', '.', '.', '.', '.', '6', '.' },
+                new char[9] { '8', '.', '.', '.', '6', '.', '.', '.', '3' },
+                new char[9] { '4', '.', '.', '8', '.', '3', '.', '.', '1' },
+                new char[9] { '7', '.', '.', '.', '2', '.', '.', '.', '6' },
+                new char[9] { '.', '6', '.', '.', '.', '.', '2', '8', '.' },
+                new char[9] { '.', '.', '.', '4', '1', '9', '.', '.', '5' },
+                new char[9] { '.', '.', '.', '.', '8', '.', '.', '7', '9' }
+            };
+
+            HashTableQuestion.IsValidSudoku(board1).Should().BeTrue();
+
+            // duplicate in col 1
+            var board2 = new char[9][] {
+                new char[9] { '8', '3', '.', '.', '7', '.', '.', '.', '.' },
+                new char[9] { '6', '.', '.', '1', '9', '5', '.', '.', '.' },
+                new char[9] { '.', '9', '8', '.', '.', '.', '.', '6', '.' },
+                new char[9] { '8', '.', '.', '.', '6', '.', '.', '.', '3' },
+                new char[9] { '4', '.', '.', '8', '.', '3', '.', '.', '1' },
+                new char[9] { '7', '.', '.', '.', '2', '.', '.', '.', '6' },
+                new char[9] { '.', '6', '.', '.', '.', '.', '2', '8', '.' },
+                new char[9] { '.', '.', '.', '4', '1', '9', '.', '.', '5' },
+                new char[9] { '.', '.', '.', '.', '8', '.', '.', '7', '9' }
+            };
+
+            HashTableQuestion.IsValidSudoku(board2).Should().BeFalse();
+
+            // duplicate in row 1
+            var board3 = new char[9][] {
+                new char[9] { '5', '3', '.', '.', '7', '.', '.', '.', '5' },
+                new char[9] { '6', '.', '.', '1', '9', '5', '.', '.', '.' },
+                new char[9] { '.', '9', '8', '.', '.', '.', '.', '6', '.' },
+                new char[9] { '8', '.', '.', '.', '6', '.', '.', '.', '3' },
+                new char[9] { '4', '.', '.', '8', '.', '3', '.', '.', '1' },
+                new char[9] { '7', '.', '.', '.', '2', '.', '.', '.', '6' },
+                new char[9] { '.', '6', '.', '.', '.', '.', '2', '8', '.' },
+                new char[9] { '.', '.', '.', '4', '1', '9', '.', '.', '5' },
+                new char[9] { '.', '.', '.', '.', '8', '.', '.', '7', '9' }
+            };
+
+            HashTableQuestion.IsValidSudoku(board3).Should().BeFalse();
+
+            // duplicate in box 9
+            var board4 = new char[9][] {
+                new char[9] { '5', '3', '.', '.', '7', '.', '.', '.', '.' },
+                new char[9] { '6', '.', '.', '1', '9', '5', '.', '.', '.' },
+                new char[9] { '.', '9', '8', '.', '.', '.', '.', '6', '.' },
+                new char[9] { '8', '.', '.', '.', '6', '.', '.', '.', '3' },
+                new char[9] { '4', '.', '.', '8', '.', '3', '.', '.', '1' },
+                new char[9] { '7', '.', '.', '.', '2', '.', '.', '.', '6' },
+                new char[9] { '.', '6', '.', '.', '.', '.', '2', '8', '.' },
+                new char[9] { '.', '.', '.', '4', '1', '9', '.', '.', '7' },
+                new char[9] { '.', '.', '.', '.', '8', '.', '.', '7', '9' }
+            };
+
+            HashTableQuestion.IsValidSudoku(board4).Should().BeFalse();
+        }
+
+        [Test]
+        [TestCase(new int[] {1,2}, new int[] {-2,-1}, new int[] {-1,2}, new int[] {0,2}, 2)]
+        [TestCase(new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, 1)]
+        [TestCase(new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 1 }, 0)]
+        public void FourSumCountIITests(int[] nums1, int[] nums2, int[] nums3, int[] nums4, int expected)
+        {
+            var res = HashTableQuestion.FourSumCount(nums1, nums2, nums3, nums4);
+            res.Should().Be(expected);
+        }
+
+        [Test]
+        [TestCase(new int[] { 1, 1, 1, 2, 2, 3 }, 2, new int[] {1,2})]
+        [TestCase(new int[] { 1 }, 1, new int[] { 1 })]
+        public void TopKFrequentTests(int[] nums, int k, int[] expected)
+        {
+            var res = HashTableQuestion.TopKFrequent(nums, k);
+            
+            res.Length.Should().Be(expected.Length);
+
+            if(expected.Length > 0)
+                res.Should().Contain(expected);
+        }
+
+        [Theory]
+        public void ValidWorkAbbreviationTests()
+        {
+            ValidWordAbbr validWordAbbr1 = new ValidWordAbbr(new string[] { "deer", "door", "cake", "card" });
+            validWordAbbr1.IsUnique("dear").Should().BeFalse(); // return false, dictionary word "deer" and word "dear" have the same abbreviation "d2r" but are not the same.
+            validWordAbbr1.IsUnique("cart").Should().BeTrue();  // return true, no words in the dictionary have the abbreviation "c2t".
+            validWordAbbr1.IsUnique("cane").Should().BeFalse(); // return false, dictionary word "cake" and word "cane" have the same abbreviation  "c2e" but are not the same.
+            validWordAbbr1.IsUnique("make").Should().BeTrue();  // return true, no words in the dictionary have the abbreviation "m2e".
+            validWordAbbr1.IsUnique("cake").Should().BeTrue();  // return true, because "cake" is already in the dictionary and no other word in the dictionary has "c2e" abbreviation.
+
+            ValidWordAbbr validWordAbbr2 = new ValidWordAbbr(new string[] { "door", "naive", "aih" });
+            validWordAbbr2.IsUnique("cat").Should().BeTrue();
+            validWordAbbr2.IsUnique("cat").Should().BeTrue();
+            validWordAbbr2.IsUnique("ayh").Should().BeFalse();
+
+            ValidWordAbbr validWordAbbr3 = new ValidWordAbbr(new string[] { "deer", "door", "cake", "card" });
+            validWordAbbr3.IsUnique("dear").Should().BeFalse();
+            validWordAbbr3.IsUnique("door").Should().BeFalse();
+            validWordAbbr3.IsUnique("cart").Should().BeTrue();
+            validWordAbbr3.IsUnique("cake").Should().BeTrue();
+        }
     }
 }

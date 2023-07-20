@@ -452,6 +452,182 @@ namespace LeetCode
 
             return max;
         }
+
+        /*
+         * 36. Valid Sudoku
+         * Problem: https://leetcode.com/problems/valid-sudoku/description/
+         */
+        public static bool IsValidSudoku(char[][] board)
+        {
+            const int n = 9;
+
+            // hash sets of rows, columns and boxes
+            var rows = new HashSet<int>[n];
+            var cols = new HashSet<int>[n];
+            var boxes = new HashSet<int>[n];
+
+            // init sets
+            for(int i = 0; i < n; i++)
+            {
+                rows[i] = new HashSet<int>();
+                cols[i] = new HashSet<int>();
+                boxes[i] = new HashSet<int>();
+            }
+
+            // find duplicates if any in each row, col and box
+            for(int r = 0; r < n; r++)
+            {
+                for(int c = 0; c < n; c++)
+                {
+                    var val = board[r][c];
+
+                    // check rows
+                    if (rows[r].Contains(val) && val != '.')
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        rows[r].Add(val);
+                    }
+
+                    // check cols
+                    if (cols[c].Contains(val) && val != '.')
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        cols[c].Add(val);
+                    }
+
+                    // check boxes
+                    int b = ((int) r / 3) * 3 + ((int) c / 3);
+                    if (boxes[b].Contains(val) && val != '.')
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        boxes[b].Add(val);
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /*
+         * 4Sum II
+         * Problem: https://leetcode.com/problems/4sum-ii/description/
+         * 
+         * S = n1 + n2 + n3 + n4
+         * => n1 + n2 = S - (n3 + n4)
+         */
+        public static int FourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4)
+        {
+            var sum12Count = new Dictionary<int, int>();
+            var sum34Count = new Dictionary<int, int>();
+            
+            for(int i = 0; i < nums1.Length; i++)
+            {
+                for(int j = 0; j < nums1.Length; j++)
+                {
+                    var sum12 = nums1[i] + nums2[j];
+                    var count12 = sum12Count.TryGetValue(sum12, out var val12) ? val12 : 0;
+                    sum12Count[sum12] = count12 + 1;
+
+                    var sum34 = nums3[i] + nums4[j];
+                    var count34 = sum34Count.TryGetValue(sum34, out var val34) ? val34 : 0;
+                    sum34Count[sum34] = count34 + 1;
+                }
+            }
+
+            var fourSumCount = 0;
+
+            foreach(int sum12 in sum12Count.Keys.ToList())
+            {
+                if (sum34Count.TryGetValue(0 - sum12, out var count34))
+                {
+                    fourSumCount += sum12Count[sum12] * count34;
+                }
+            }
+
+            return fourSumCount;
+        }
+
+        /*
+         * 347. Top K Frequent Elements
+         * Problem: https://leetcode.com/problems/top-k-frequent-elements/description/
+         */
+        public static int[] TopKFrequent(int[] nums, int k)
+        {
+            var count = new Dictionary<int, int>();
+
+            foreach(int n in nums)
+            {
+                var c = count.TryGetValue(n, out var val) ? val : 0;
+                count[n] = c + 1;
+            }
+
+            return count.OrderByDescending(x => x.Value)
+                .Select(x => x.Key)
+                .Take(k).ToArray();
+        }
+
+
+    }
+
+    /*
+     * Unique Word Abbreviation
+     * Problem: https://leetcode.com/problems/unique-word-abbreviation/
+     */
+    public class ValidWordAbbr
+    {
+        private IDictionary<string, string> wordAbbr;
+
+        public ValidWordAbbr(string[] dictionary)
+        {
+            wordAbbr = new Dictionary<string, string>();
+            foreach(var word in dictionary)
+            {
+                var abbr = Abbreviate(word);
+                if(!wordAbbr.ContainsKey(abbr))
+                {
+                    wordAbbr[abbr] = word;
+                }
+                
+            }
+        }
+
+        public bool IsUnique(string word)
+        {
+            var abbr = Abbreviate(word);
+
+            if(!wordAbbr.ContainsKey(abbr))
+            {
+                wordAbbr[abbr] = word;
+                return true;
+            }
+            else if(wordAbbr.ContainsKey(abbr) && string.Equals(wordAbbr[abbr], word))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private string Abbreviate(string word)
+        {
+            var lastEndCount = word.Length - 2;
+
+            if (lastEndCount <= 0)
+            { 
+                return word;
+            }
+
+            return $"{word[0]}{lastEndCount}{word[word.Length-1]}";
+        }
     }
 
     /*

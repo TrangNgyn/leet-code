@@ -322,6 +322,79 @@ namespace LeetCode
 
             return -1;
         }
+
+
+
+
+        /* Week 4: 16-07-2023 */
+
+        public static int SumOfSquares(int[] nums)
+        {
+            int n = nums.Length;
+
+            int sum = 0;
+
+            for(int i = 0; i < n; i++)
+            {
+                if (n % (i + 1) == 0)
+                {
+                    sum += nums[i] * nums[i];
+                }
+            }
+
+            return sum;
+        }
+
+
+
+        public static int MaximumBeauty(int[] nums, int k)
+        {
+            return 0;
+        }
+
+
+        public static int MinimumIndex(IList<int> nums)
+        {
+            int n = nums.Count;
+            Dictionary<int, int> count = new Dictionary<int, int>();
+            int domElem = 0, domFreq = 0;
+
+            // Count the occurrences of each element
+            foreach (int num in nums)
+            {
+                if (!count.ContainsKey(num))
+                    count[num] = 0;
+
+                count[num]++;
+                if (count[num] > domFreq)
+                {
+                    domElem = num;
+                    domFreq = count[num];
+                }
+            }
+
+            int leftFreq = 0, rightFreq = domFreq;
+
+            // Iterate through the array to find a valid split
+            for (int i = 0; i < n - 1; i++)
+            {
+                if (nums[i] == domElem)
+                {
+                    leftFreq++;
+                    rightFreq--;
+                }
+
+                if (leftFreq * 2 > i + 1 && rightFreq * 2 > n - i - 1)
+                    return i;
+            }
+
+            return -1; // No valid split found
+        }
+
+        public static int LongestValidSubstring(string word, IList<string> forbidden)
+        {
+            return 0;
+        }
     }
 
 }

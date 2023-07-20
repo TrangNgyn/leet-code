@@ -130,5 +130,53 @@ namespace LeetCode.Test
 
             DailyChallenge.MinDepth(tree3).Should().Be(2);
         }
+
+        [Test]
+        [TestCase(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }, 49)]
+        [TestCase(new int[] { 1, 1 }, 1)]
+        public void MaxAreaTests(int[] heights, int expected)
+        {
+            var result = DailyChallenge.MaxArea(heights);
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        public void AddTwoNumbersTests()
+        {
+            var l1 = new ListNode(7, 2, 4, 3);
+            var l2 = new ListNode(5, 6, 4);
+            var result = DailyChallenge.AddTwoNumbers(l1, l2);
+            result.ToArray().Should().BeEquivalentTo(new int[] {7,8,0,7});
+
+            l1 = new ListNode(2, 4, 3);
+            l2 = new ListNode(5, 6, 4);
+            result = DailyChallenge.AddTwoNumbers(l1, l2);
+            result.ToArray().Should().BeEquivalentTo(new int[] { 8, 0, 7 });
+
+            l1 = new ListNode(0);
+            l2 = new ListNode(0);
+            result = DailyChallenge.AddTwoNumbers(l1, l2);
+            result.ToArray().Should().BeEquivalentTo(new int[] {0});
+
+            l1 = new ListNode(9);
+            l2 = new ListNode(9, 9);
+            result = DailyChallenge.AddTwoNumbers(l1, l2);
+            result.ToArray().Should().BeEquivalentTo(new int[] { 1, 0, 8 });
+
+            l1 = new ListNode(3, 9, 9, 9, 9, 9, 9, 9, 9, 9);
+            l2 = new ListNode(7);
+            result = DailyChallenge.AddTwoNumbers(l1, l2);
+            result.ToArray().Should().BeEquivalentTo(new int[] { 4, 0, 0, 0, 0, 0, 0, 0, 0, 6 });
+        }
+
+        [Test]
+        [TestCase(new int[] { 5, 10, -5 }, new int[] { 5, 10 })]
+        [TestCase(new int[] { 8, -8 }, new int[] { })]
+        [TestCase(new int[] { 10, 2, -5 }, new int[] { 10 })]
+        public void AsteroidCollisionTests(int[] asteroids, int[] expected)
+        {
+            var res = DailyChallenge.AsteroidCollision(asteroids);
+            res.Should().BeEquivalentTo(expected);
+        }
     }
 }

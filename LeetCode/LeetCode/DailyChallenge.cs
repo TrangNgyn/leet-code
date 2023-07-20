@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Numerics;
 using System.Text;
 
@@ -272,5 +273,126 @@ namespace LeetCode
 
             return 1 + Math.Min(DFS(root.Right), DFS(root.Left));
         }
+
+        /*
+         * 11. Container With Most Water
+         * Problem: https://leetcode.com/problems/container-with-most-water/description/
+         * 
+         * Sliding window with 2 pointers
+         * Time complexity: O(n)
+         * Space complexity: O(1)
+         */
+        public static int MaxArea(int[] height)
+        {
+            var left = 0;
+            var right = height.Length - 1;
+            var area = 0;
+            
+            while(right > left && left < height.Length - 1)
+            {   
+                var h = Math.Min(height[left], height[right]);
+                area = Math.Max(area, h * (right - left));
+
+                if(height[right] < height[left])
+                {
+                    right--;
+                }
+                else
+                {
+                    left++;
+                }
+            }
+
+            return area;
+        }
+
+        /*
+         * 445. Add Two Numbers II
+         * Problem: https://leetcode.com/problems/add-two-numbers-ii/
+         * 
+         * Time complexity: O(n + m)
+         * Space complexity: O(1)
+         */
+        public static ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        {
+            BigInteger num1 = 0;
+            while(l1 != null)
+            {
+                num1 = num1* 10 + l1.Val;
+                l1 = l1.Next;
+            }
+
+            BigInteger num2 = 0;
+            while (l2 != null)
+            {
+                num2 = num2 * 10 + l2.Val;
+                l2 = l2.Next;
+            }
+
+            BigInteger sum = num1 + num2;
+            ListNode temp = null, node = null;
+
+            if(sum == 0)
+            {
+                return new ListNode(0);
+            }
+
+            while(sum > 0)
+            {
+                BigInteger val = sum % 10;
+                node = new ListNode()
+                {
+                    Val = (int) val,
+                    Next = temp,
+                };
+
+                temp = node;
+                sum = (sum - val)/10;
+            }
+
+            return node;
+        }
+
+        /*
+         * 
+         */
+        public static int[] AsteroidCollision(int[] asteroids)
+        {
+            var stack = new Stack<int>();
+
+            for(int i = 0; i < asteroids.Length; i++)
+            {
+                bool flag = true;
+                while (stack.Count > 0 && (stack.Peek() > 0 && asteroids[i] < 0))
+                {
+                    // If the top asteroid in the stack is smaller, then it will explode.
+                    // Hence pop it from the stack, also continue with the next asteroid in the stack.
+                    if (Math.Abs(stack.Peek()) < Math.Abs(asteroids[i]))
+                    {
+                        stack.Pop();
+                        continue;
+                    }
+                    // If both asteroids have the same size, then both asteroids will explode.
+                    // Pop the asteroid from the stack; also, we won't push the current asteroid to the stack.
+                    else if (Math.Abs(stack.Peek()) == Math.Abs(asteroids[i]))
+                    {
+                        stack.Pop();
+                    }
+
+                    // If we reach here, the current asteroid will be destroyed
+                    // Hence, we should not add it to the stack
+                    flag = false;
+                    break;
+                }
+
+                if (flag)
+                {
+                    stack.Push(asteroids[i]);
+                }
+            }
+
+            return stack.ToArray();
+        }
+
     }
 }
