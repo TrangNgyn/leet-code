@@ -442,5 +442,23 @@ namespace LeetCode.Test
             validWordAbbr3.IsUnique("cart").Should().BeTrue();
             validWordAbbr3.IsUnique("cake").Should().BeTrue();
         }
+
+        [Theory]
+        public void RandomizedSetTests()
+        {
+            var expected = new List<int>();
+            RandomizedSet randomizedSet = new RandomizedSet();
+            randomizedSet.Insert(1).Should().Be(true); // Inserts 1 to the set. Returns true as 1 was inserted successfully.
+            randomizedSet.Remove(2).Should().Be(false); // Returns false as 2 does not exist in the set.
+            randomizedSet.Insert(2).Should().Be(true); // Inserts 2 to the set, returns true. Set now contains [1,2].
+
+            expected = new List<int>() { 1, 2 };
+            expected.Should().Contain(randomizedSet.GetRandom()); // getRandom() should return either 1 or 2 randomly.
+            
+            randomizedSet.Remove(1).Should().Be(true); // Removes 1 from the set, returns true. Set now contains [2].
+            randomizedSet.Insert(2).Should().Be(false); // 2 was already in the set, so return false.
+
+            randomizedSet.GetRandom().Should().Be(2); // Since 2 is the only number in the set, getRandom() will always return 2.
+        }
     }
 }

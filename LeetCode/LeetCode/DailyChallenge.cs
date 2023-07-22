@@ -354,7 +354,8 @@ namespace LeetCode
         }
 
         /*
-         * 
+         * 735. Asteroid Collision
+         * Problem: https://leetcode.com/problems/asteroid-collision/description/
          */
         public static int[] AsteroidCollision(int[] asteroids)
         {

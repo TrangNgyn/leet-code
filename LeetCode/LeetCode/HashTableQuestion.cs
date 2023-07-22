@@ -575,7 +575,83 @@ namespace LeetCode
                 .Take(k).ToArray();
         }
 
+        /*
+         * 652. Find Duplicate Subtrees
+         * Problem: https://leetcode.com/problems/find-duplicate-subtrees/description/
+         */
+        public static List<TreeNode> FindDuplicateSubtrees(TreeNode root)
+        {
+            var res = new List<TreeNode>();
+            Traverse(root, new Dictionary<string, int>(), new Dictionary<int, int>(), res);
+            return res;
+        }
 
+        public static int Traverse(TreeNode node, Dictionary<string, int> tripletToID,
+                Dictionary<int, int> cnt, List<TreeNode> res)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+            string triplet = Traverse(node.Left, tripletToID, cnt, res) + "," + node.Value +
+                    "," + Traverse(node.Right, tripletToID, cnt, res);
+            if (!tripletToID.ContainsKey(triplet))
+            {
+                tripletToID[triplet] = tripletToID.Count + 1;
+            }
+            int id = tripletToID[triplet];
+            var c = cnt.TryGetValue(id, out int val) ? val : 0;
+            cnt[id] = id + 1;
+
+            if (cnt[id] == 2)
+            {
+                res.Add(node);
+            }
+            return id;
+        }
+    }
+
+    /*
+     * Insert Delete GetRandom O(1)
+     * Problem: https://leetcode.com/problems/insert-delete-getrandom-o1/description/
+     */
+    public class RandomizedSet
+    {
+        private ISet<int> uniqueSet;
+        private Random rnd;
+
+        public RandomizedSet()
+        {
+            uniqueSet = new HashSet<int>();
+            rnd = new Random();
+        }
+
+        public bool Insert(int val)
+        {
+            if(!uniqueSet.Contains(val))
+            {
+                uniqueSet.Add(val);
+                return true;
+            }
+            return false;
+        }
+
+        public bool Remove(int val)
+        {
+            if (uniqueSet.Contains(val))
+            {
+                uniqueSet.Remove(val);
+                return true;
+            }
+            return false;
+
+        }
+
+        public int GetRandom()
+        {
+            var i = rnd.Next(uniqueSet.Count);
+            return uniqueSet.ElementAt(i);
+        }
     }
 
     /*
@@ -596,25 +672,20 @@ namespace LeetCode
                 {
                     wordAbbr[abbr] = word;
                 }
+                else if(wordAbbr[abbr] != word)
+                {
+                    wordAbbr[abbr] = string.Empty;
+                }
                 
             }
         }
 
         public bool IsUnique(string word)
         {
-            var abbr = Abbreviate(word);
+            string abbreviation = Abbreviate(word);
+            string abbreviations = wordAbbr.TryGetValue(abbreviation, out var val) ? val : null;
 
-            if(!wordAbbr.ContainsKey(abbr))
-            {
-                wordAbbr[abbr] = word;
-                return true;
-            }
-            else if(wordAbbr.ContainsKey(abbr) && string.Equals(wordAbbr[abbr], word))
-            {
-                return true;
-            }
-
-            return false;
+            return abbreviations == null || abbreviations == word;
         }
 
         private string Abbreviate(string word)
