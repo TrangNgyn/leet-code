@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using LeetCode.SharedModels;
 
-namespace LeetCode
+namespace LeetCode.ThemedQuestions
 {
     public class HashTableQuestion
     {
@@ -21,11 +22,11 @@ namespace LeetCode
         {
             var occurence = new Dictionary<int, int>();
 
-            foreach(var x in nums)
+            foreach (var x in nums)
             {
                 occurence[x] = occurence.ContainsKey(x) ? occurence[x] + 1 : 1;
             }
-            
+
             return occurence.Where(x => x.Value == 1).First().Key;
         }
 
@@ -40,16 +41,16 @@ namespace LeetCode
         {
             var isNumInIntersection = new Dictionary<int, bool>();
 
-            foreach(var x in nums1)
+            foreach (var x in nums1)
             {
-                if(isNumInIntersection.ContainsKey(x))
+                if (isNumInIntersection.ContainsKey(x))
                 {
-                    continue; 
+                    continue;
                 }
                 isNumInIntersection.Add(x, false);
             }
 
-            foreach(var x in nums2)
+            foreach (var x in nums2)
             {
                 if (isNumInIntersection.ContainsKey(x))
                 {
@@ -59,7 +60,7 @@ namespace LeetCode
 
             return isNumInIntersection
                 .Where(x => x.Value)
-                .Select(x =>  x.Key)
+                .Select(x => x.Key)
                 .ToArray();
         }
 
@@ -70,14 +71,14 @@ namespace LeetCode
          * so all we need to do is detect when the loop starts (where a repeated sum is found)
          */
         public static bool IsHappy(int n)
-        {            
+        {
             var digits = IntToDigitsArray(n);
-            var sumDigitsSquared = digits.Sum(x => x*x);
+            var sumDigitsSquared = digits.Sum(x => x * x);
             var prevSumOfDigitsSquared = new HashSet<int>();
 
-            while(!prevSumOfDigitsSquared.Contains(sumDigitsSquared))
+            while (!prevSumOfDigitsSquared.Contains(sumDigitsSquared))
             {
-                if(sumDigitsSquared == 1)
+                if (sumDigitsSquared == 1)
                 {
                     return true;
                 }
@@ -87,7 +88,7 @@ namespace LeetCode
                     digits = IntToDigitsArray(sumDigitsSquared);
                     sumDigitsSquared = digits.Sum(x => x * x);
 
-                    if(prevSumOfDigitsSquared.Contains(sumDigitsSquared))
+                    if (prevSumOfDigitsSquared.Contains(sumDigitsSquared))
                     {
                         return false;
                     }
@@ -143,11 +144,11 @@ namespace LeetCode
 
             for (int i = 0; i < s.Length; i++)
             {
-                if (charMapST.ContainsKey(s[i]) && charMapST[s[i]] != t[i]) 
+                if (charMapST.ContainsKey(s[i]) && charMapST[s[i]] != t[i])
                 {
                     return false;
                 }
-                else if(charMapTS.ContainsKey(t[i]) && charMapTS[t[i]] != s[i])
+                else if (charMapTS.ContainsKey(t[i]) && charMapTS[t[i]] != s[i])
                 {
                     return false;
                 }
@@ -183,8 +184,8 @@ namespace LeetCode
                 {
                     var sumIndex = stringIndexMap1[list2[i]] + i;
                     sumCommonStringIndexMap[list2[i]] = sumIndex;
-                    
-                    if(sumIndex < minIndex)
+
+                    if (sumIndex < minIndex)
                     {
                         minIndex = sumIndex;
                     }
@@ -205,17 +206,17 @@ namespace LeetCode
          */
         public static int FirstUniqChar(string s)
         {
-            var charOccurenceIndexMap = new Dictionary<char,int[]>();
-            
-            for(int i = 0; i < s.Length; i++)
+            var charOccurenceIndexMap = new Dictionary<char, int[]>();
+
+            for (int i = 0; i < s.Length; i++)
             {
                 if (charOccurenceIndexMap.ContainsKey(s[i]))
                 {
                     charOccurenceIndexMap[s[i]][0] += 1;
                 }
-                else 
-                { 
-                    charOccurenceIndexMap[s[i]] = new int[] {1, i}; 
+                else
+                {
+                    charOccurenceIndexMap[s[i]] = new int[] { 1, i };
                 }
             }
 
@@ -246,17 +247,17 @@ namespace LeetCode
             var numCount1 = new Dictionary<int, int>();
 
             // count occurence of ints in nums1
-            for(int i = 0; i <  nums1.Length; i++)
+            for (int i = 0; i < nums1.Length; i++)
             {
                 numCount1[nums1[i]] = numCount1.TryGetValue(nums1[i], out var value) ? value + 1 : 1;
             }
 
             int intersectionLength = 0;
-            for(int i = 0; i < nums2.Length; i++)
+            for (int i = 0; i < nums2.Length; i++)
             {
                 var count = numCount1.TryGetValue(nums2[i], out var value) ? value : 0;
 
-                if(count > 0)
+                if (count > 0)
                 {
                     nums1[intersectionLength] = nums2[i];
                     intersectionLength++;
@@ -287,14 +288,14 @@ namespace LeetCode
          */
         public static bool ContainsNearbyDuplicate(int[] nums, int k)
         {
-            if(k == 0 || nums.Length == 1)
+            if (k == 0 || nums.Length == 1)
             {
                 return false;
             }
 
-            var mostRecentIndexMap = new Dictionary<int,int>();
+            var mostRecentIndexMap = new Dictionary<int, int>();
 
-            for(int i = 0; i < nums.Length; i++)
+            for (int i = 0; i < nums.Length; i++)
             {
                 if (mostRecentIndexMap.ContainsKey(nums[i]))
                 {
@@ -320,9 +321,9 @@ namespace LeetCode
         {
             var anagramMap = new Dictionary<string, IList<string>>();
 
-            for(int i = 0;i < strs.Length;i++)
+            for (int i = 0; i < strs.Length; i++)
             {
-                var sortedString = String.Concat(strs[i].OrderBy(c => c));
+                var sortedString = string.Concat(strs[i].OrderBy(c => c));
 
                 if (anagramMap.ContainsKey(sortedString))
                 {
@@ -360,15 +361,15 @@ namespace LeetCode
 
             return groupedStrings.Values.ToList();
         }
-        
+
         public static string ShiftStringToStartFromA(string s)
         {
-            int distFromA = (int)s[0] - 'a';
+            int distFromA = s[0] - 'a';
             var result = "a";
 
-            if(s.Length > 1)
+            if (s.Length > 1)
             {
-                for(int i = 1; i < s.Length; i++)
+                for (int i = 1; i < s.Length; i++)
                 {
                     result += ShiftChar(s[i], distFromA);
                 }
@@ -379,7 +380,7 @@ namespace LeetCode
 
         public static char ShiftChar(char c, int shiftNumber)
         {
-            return (char) ((c - shiftNumber + 26) % 26 + 1);
+            return (char)((c - shiftNumber + 26) % 26 + 1);
         }
 
         /*
@@ -401,7 +402,7 @@ namespace LeetCode
 
             foreach (var s in stones)
             {
-                if(jewelCount.ContainsKey(s))
+                if (jewelCount.ContainsKey(s))
                 {
                     jewelCount[s]++;
                 }
@@ -423,19 +424,19 @@ namespace LeetCode
             int start = 0, max = 1, duplicateCount = 0;
             var charSet = new HashSet<char>();
 
-            if(s.Length == 0)
+            if (s.Length == 0)
             {
                 return 0;
             }
 
-            for(int i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length; i++)
             {
                 if (charSet.Contains(s[i]))
                 {
                     duplicateCount++;
                 }
 
-                while(duplicateCount > 0)
+                while (duplicateCount > 0)
                 {
                     if (s[start] == s[i])
                     {
@@ -467,7 +468,7 @@ namespace LeetCode
             var boxes = new HashSet<int>[n];
 
             // init sets
-            for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 rows[i] = new HashSet<int>();
                 cols[i] = new HashSet<int>();
@@ -475,9 +476,9 @@ namespace LeetCode
             }
 
             // find duplicates if any in each row, col and box
-            for(int r = 0; r < n; r++)
+            for (int r = 0; r < n; r++)
             {
-                for(int c = 0; c < n; c++)
+                for (int c = 0; c < n; c++)
                 {
                     var val = board[r][c];
 
@@ -502,7 +503,7 @@ namespace LeetCode
                     }
 
                     // check boxes
-                    int b = ((int) r / 3) * 3 + ((int) c / 3);
+                    int b = r / 3 * 3 + c / 3;
                     if (boxes[b].Contains(val) && val != '.')
                     {
                         return false;
@@ -528,10 +529,10 @@ namespace LeetCode
         {
             var sum12Count = new Dictionary<int, int>();
             var sum34Count = new Dictionary<int, int>();
-            
-            for(int i = 0; i < nums1.Length; i++)
+
+            for (int i = 0; i < nums1.Length; i++)
             {
-                for(int j = 0; j < nums1.Length; j++)
+                for (int j = 0; j < nums1.Length; j++)
                 {
                     var sum12 = nums1[i] + nums2[j];
                     var count12 = sum12Count.TryGetValue(sum12, out var val12) ? val12 : 0;
@@ -545,7 +546,7 @@ namespace LeetCode
 
             var fourSumCount = 0;
 
-            foreach(int sum12 in sum12Count.Keys.ToList())
+            foreach (int sum12 in sum12Count.Keys.ToList())
             {
                 if (sum34Count.TryGetValue(0 - sum12, out var count34))
                 {
@@ -564,7 +565,7 @@ namespace LeetCode
         {
             var count = new Dictionary<int, int>();
 
-            foreach(int n in nums)
+            foreach (int n in nums)
             {
                 var c = count.TryGetValue(n, out var val) ? val : 0;
                 count[n] = c + 1;
@@ -628,7 +629,7 @@ namespace LeetCode
 
         public bool Insert(int val)
         {
-            if(!uniqueSet.Contains(val))
+            if (!uniqueSet.Contains(val))
             {
                 uniqueSet.Add(val);
                 return true;
@@ -665,18 +666,18 @@ namespace LeetCode
         public ValidWordAbbr(string[] dictionary)
         {
             wordAbbr = new Dictionary<string, string>();
-            foreach(var word in dictionary)
+            foreach (var word in dictionary)
             {
                 var abbr = Abbreviate(word);
-                if(!wordAbbr.ContainsKey(abbr))
+                if (!wordAbbr.ContainsKey(abbr))
                 {
                     wordAbbr[abbr] = word;
                 }
-                else if(wordAbbr[abbr] != word)
+                else if (wordAbbr[abbr] != word)
                 {
                     wordAbbr[abbr] = string.Empty;
                 }
-                
+
             }
         }
 
@@ -693,11 +694,11 @@ namespace LeetCode
             var lastEndCount = word.Length - 2;
 
             if (lastEndCount <= 0)
-            { 
+            {
                 return word;
             }
 
-            return $"{word[0]}{lastEndCount}{word[word.Length-1]}";
+            return $"{word[0]}{lastEndCount}{word[word.Length - 1]}";
         }
     }
 
@@ -712,10 +713,10 @@ namespace LeetCode
      */
     public class TwoSum
     {
-        private Dictionary<int,int> intCount;
+        private Dictionary<int, int> intCount;
         public TwoSum()
         {
-            intCount = new Dictionary<int,int>();
+            intCount = new Dictionary<int, int>();
         }
 
         public void Add(int number)
@@ -726,13 +727,13 @@ namespace LeetCode
 
         public bool Find(int value)
         {
-            foreach(int i in intCount.Keys)
+            foreach (int i in intCount.Keys)
             {
                 var comp = value - i;
 
                 if (intCount.ContainsKey(comp))
                 {
-                    if ((comp*2 == value && intCount[comp] > 1) || comp * 2 != value)
+                    if (comp * 2 == value && intCount[comp] > 1 || comp * 2 != value)
                     {
                         return true;
                     }
@@ -772,7 +773,7 @@ namespace LeetCode
 
             if (nextTs > 0)
             {
-                if(nextTs > timestamp)
+                if (nextTs > timestamp)
                 {
                     return false;
                 }
@@ -873,7 +874,7 @@ namespace LeetCode
         {
             return key % TableSize;
         }
-    
+
         public void Put(int key, int value)
         {
             var hashValue = Hash(key);

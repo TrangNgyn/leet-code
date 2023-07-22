@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using LeetCode.ThemedQuestions;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace LeetCode.Test
+namespace LeetCode.Test.ThemedQuestions
 {
     public class HashTableQuestionTests
     {
@@ -399,7 +400,7 @@ namespace LeetCode.Test
         }
 
         [Test]
-        [TestCase(new int[] {1,2}, new int[] {-2,-1}, new int[] {-1,2}, new int[] {0,2}, 2)]
+        [TestCase(new int[] { 1, 2 }, new int[] { -2, -1 }, new int[] { -1, 2 }, new int[] { 0, 2 }, 2)]
         [TestCase(new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, 1)]
         [TestCase(new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 1 }, 0)]
         public void FourSumCountIITests(int[] nums1, int[] nums2, int[] nums3, int[] nums4, int expected)
@@ -409,15 +410,15 @@ namespace LeetCode.Test
         }
 
         [Test]
-        [TestCase(new int[] { 1, 1, 1, 2, 2, 3 }, 2, new int[] {1,2})]
+        [TestCase(new int[] { 1, 1, 1, 2, 2, 3 }, 2, new int[] { 1, 2 })]
         [TestCase(new int[] { 1 }, 1, new int[] { 1 })]
         public void TopKFrequentTests(int[] nums, int k, int[] expected)
         {
             var res = HashTableQuestion.TopKFrequent(nums, k);
-            
+
             res.Length.Should().Be(expected.Length);
 
-            if(expected.Length > 0)
+            if (expected.Length > 0)
                 res.Should().Contain(expected);
         }
 
@@ -454,7 +455,7 @@ namespace LeetCode.Test
 
             expected = new List<int>() { 1, 2 };
             expected.Should().Contain(randomizedSet.GetRandom()); // getRandom() should return either 1 or 2 randomly.
-            
+
             randomizedSet.Remove(1).Should().Be(true); // Removes 1 from the set, returns true. Set now contains [2].
             randomizedSet.Insert(2).Should().Be(false); // 2 was already in the set, so return false.
 

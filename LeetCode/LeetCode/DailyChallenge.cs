@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Numerics;
 using System.Text;
+using LeetCode.SharedModels;
 
 namespace LeetCode
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LeetCode
+namespace LeetCode.SharedModels
 {
     public class TreeNode
     {
@@ -11,9 +11,9 @@ namespace LeetCode
         public TreeNode Left { get; set; }
         public TreeNode Right { get; set; }
 
-        public TreeNode() 
-        { 
-        
+        public TreeNode()
+        {
+
         }
         public TreeNode(int key, int? value = null)
         {
@@ -23,7 +23,7 @@ namespace LeetCode
         }
     }
 
-    public  class BinarySearchTree
+    public class BinarySearchTree
     {
         public TreeNode Root;
 
@@ -85,19 +85,19 @@ namespace LeetCode
         public int Search(int key)
         {
             var target = SearchNode(Root, key);
-            return (target != null) ? target.Value.Value : -1;
+            return target != null ? target.Value.Value : -1;
         }
 
         private TreeNode SearchNode(TreeNode node, int key)
         {
             // base case: tree is empty or key is found
-            if(node == null || node.Key == key)
+            if (node == null || node.Key == key)
             {
                 return node;
             }
 
             // traverse the tree
-            if(key < node.Key)
+            if (key < node.Key)
             {
                 return SearchNode(node.Left, key);
             }
@@ -129,19 +129,19 @@ namespace LeetCode
          */
         private TreeNode RemoveFromSubtree(TreeNode root, int key)
         {
-            
-            if(root == null)
+
+            if (root == null)
             {
                 return root;
             }
 
             // find node to remove recursively
-            if(key < root.Key)
+            if (key < root.Key)
             {
                 root = RemoveFromSubtree(root.Left, key);
                 return root;
             }
-            else if(key > root.Key)
+            else if (key > root.Key)
             {
                 root = RemoveFromSubtree(root.Right, key);
                 return root;
@@ -150,7 +150,7 @@ namespace LeetCode
             /* If the deleted node only has one child
              * delete node and replace it with its child
              */
-            if(root.Left == null)
+            if (root.Left == null)
             {
                 var rightChild = root.Right;
                 root = null;
@@ -169,10 +169,10 @@ namespace LeetCode
                 var successorParent = root;
                 var successor = root.Right; // successor is in the right sub-tree
 
-                while(successor.Left != null) // traverse to the left leaf of the subtree
+                while (successor.Left != null) // traverse to the left leaf of the subtree
                 {
                     successorParent = successor;
-                    successor = successor.Left;                    
+                    successor = successor.Left;
                 }
 
                 /* if successor exists (successor parent shifted)

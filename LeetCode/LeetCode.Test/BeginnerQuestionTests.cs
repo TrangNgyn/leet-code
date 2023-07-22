@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using FluentAssertions;
+using LeetCode.SharedModels;
 
 namespace LeetCode.Test
 {
