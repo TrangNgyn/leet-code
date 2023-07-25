@@ -179,5 +179,15 @@ namespace LeetCode.Test
             var res = DailyChallenge.AsteroidCollision(asteroids);
             res.Should().BeEquivalentTo(expected);
         }
+
+        [Test]
+        [TestCase(new int[] { 0, 1, 0 }, 1)]
+        [TestCase(new int[] { 0, 2, 1, 0 }, 1)]
+        [TestCase(new int[] { 0, 2, 10, 0 }, 2)]
+        public void PeakIndexInMountainArrayTests(int[] arr, int expected)
+        {
+            var result = DailyChallenge.PeakIndexInMountainArray(arr);
+            result.Should().Be(expected);
+        }
     }
 }

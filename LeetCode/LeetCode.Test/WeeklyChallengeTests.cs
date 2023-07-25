@@ -152,5 +152,23 @@ namespace LeetCode.Test
             var result = WeeklyChallenge.LongestValidSubstring(word, forbidden);
             result.Should().Be(expected);
         }
+
+        [Test]
+        [TestCase(new int[] { 1, 2, 5 }, 3)]
+        [TestCase(new int[] { 2, 1, 2 }, 2)]
+        [TestCase(new int[] { 1 }, 1)]
+        [TestCase(new int[] { 1, 1 }, 1)]
+        [TestCase(new int[] { 1, 1, 5 }, 2)]
+        [TestCase(new int[] { 2, 3 }, 2)]
+        [TestCase(new int[] { 2, 2, 2 }, 3)]
+        [TestCase(new int[] { 1, 1, 2, 10, 9, 2 }, 5)]
+        [TestCase(new int[] { 3, 3, 8, 1, 3, 5 }, 6)]
+        [TestCase(new int[] { 4, 4 }, 2)]
+        [TestCase(new int[] { 1, 2, 1, 10, 9, 1 }, 4)]
+        public void MaxIncreasingGroupsTests(IList<int> usageLimits, int expected)
+        {
+            var result = WeeklyChallenge.MaxIncreasingGroups(usageLimits);
+            result.Should().Be(expected);
+        }
     }
 }

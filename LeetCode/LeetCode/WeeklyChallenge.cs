@@ -395,6 +395,78 @@ namespace LeetCode
         {
             return 0;
         }
+
+
+        /* Week 5: 23-07-2023 */
+
+        public static IList<string> SplitWordsBySeparator(IList<string> words, char separator)
+        {
+            var res = new List<string>();
+            foreach (string word in words)
+            {
+                res.AddRange(word.Split(separator).Where(x => !string.IsNullOrEmpty(x)));
+            }
+
+            return res;
+        }
+
+
+        /*
+         * 2790. Maximum Number of Groups With Increasing Length
+         * Problem: https://leetcode.com/problems/maximum-number-of-groups-with-increasing-length/
+         */
+        //public static int MaxIncreasingGroups(IList<int> usageLimits)
+        //{
+        //    var dist = usageLimits.Count; // number of distinct nums
+        //    var groupSize = 1;
+        //    var count = 1;
+        //    usageLimits = usageLimits.OrderByDescending(x => x).ToList();
+
+        //    while (groupSize < dist)
+        //    {
+        //        // greedily use the ones with the most usage lims first
+        //        int i = 0, numUsed = 0;
+        //        while(numUsed < groupSize)
+        //        {
+        //            usageLimits[i] = usageLimits[i] - 1;
+
+        //            if (usageLimits[i] == 0)
+        //            {
+        //                usageLimits.RemoveAt(i);
+        //            }
+        //            else
+        //            {
+        //                i++;
+        //            }
+
+        //            if (usageLimits.Count < groupSize + 1)
+        //            {
+        //                return count;
+        //            }
+
+        //            numUsed++;
+        //        }
+
+        //        usageLimits = usageLimits
+        //            .OrderByDescending(x => x)
+        //            .ToList();
+
+        //        count++;
+        //        groupSize++;
+        //    }
+
+        //    return count;
+        //}
+
+        public static int MaxIncreasingGroups(IList<int> usageLimits)
+        {
+            var sumUsageLim = usageLimits.Where(x => x > 1).Sum(x => x) + 1;
+
+            double maxGroup = (-1 + Math.Sqrt(1 + 4 * (2 * sumUsageLim))) / 2;
+            int maxGroupSize = Math.Min((int)Math.Floor(maxGroup), usageLimits.Count);
+
+            return maxGroupSize;
+        }
     }
 
 }

@@ -1,14 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace LeetCode.ThemedQuestions
 {
     public class QueueAndStackQuestion
     {
+        /*
+         * 20. Valid Parentheses
+         * Problem: https://leetcode.com/problems/valid-parentheses/description/
+         * 
+         * Time complexity: O(n)
+         * Space complexity: O(n)
+         */
+        public static bool IsValidParentheses(string s)
+        {
+            var parenPairs = new Dictionary<char, char>()
+            {
+                { '(', ')' },
+                { '[', ']' },
+                { '{', '}' }
+            };
+            var openingParens = new Stack<char>();
 
+            foreach (char p in s)
+            {
+                if(parenPairs.Keys.Contains(p))
+                {
+                    openingParens.Push(p);
+                }
+                else
+                {
+                    if(openingParens.Count == 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        var prev = openingParens.Pop();
+                        if (parenPairs[prev] != p)
+                        {
+                            return false;
+                        }
+                    }                    
+                }
+            }
+            return openingParens.Count == 0;
+        }
+    }
+
+    /*
+     * 155. Min Stack
+     * Problkem: https://leetcode.com/problems/min-stack/description/
+     */
+    public class MinStack
+    {
+        private int currMin = int.MaxValue;
+        private Stack<int[]> stack = new Stack<int[]>(); // stack of val-min pair where pair[1] is the min val in the stack when pair[0] is at the top
+        public MinStack()
+        {
+
+        }
+
+        public void Push(int val)
+        {
+            currMin = Math.Min(val, currMin);
+            var valMinPair = new int[] { val, currMin };
+            stack.Push(valMinPair);
+        }
+
+        public void Pop()
+        {
+            stack.Pop();
+
+            if(stack.Count == 0)
+            {
+                currMin = int.MaxValue;
+            }
+            else
+            {
+                currMin = stack.Peek()[1];
+            }
+        }
+
+        public int Top()
+        {
+            return stack.Peek()[0];
+        }
+
+        public int GetMin()
+        {
+            return stack.Peek()[1];
+        }
+    }
+
+    /*
+     * 346. Moving Average from Data Stream
+     * Problem: https://leetcode.com/problems/moving-average-from-data-stream/description/
+     * 
+     * Time complexity: O(1)
+     * Space complexity: O(n) where n is size of queue
+     */
+    public class MovingAverage
+    {
+        private int maxSize;
+        private Queue<int> nums;
+        private double windowSum;
+
+        public MovingAverage(int size)
+        {
+            nums = new Queue<int>(size);
+            maxSize = size;
+            windowSum = 0;
+        }
+
+        public double Next(int val)
+        {
+            if(nums.Count == maxSize)
+            {
+                var head = nums.Dequeue();
+                windowSum -= head;
+            }
+            nums.Enqueue(val);
+            windowSum += val;
+
+            return Math.Round(windowSum/nums.Count, 5);
+        }
     }
 
     /*
